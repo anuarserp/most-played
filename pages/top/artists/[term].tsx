@@ -28,7 +28,7 @@ const TopList: NextPageWithLayout = ({
           <div>
             {item.genres.map((genre) => (
               <span key={genre}>{genre}</span>
-            )
+            ))}
           </div>
         </div>
       ))}

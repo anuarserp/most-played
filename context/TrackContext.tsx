@@ -27,6 +27,7 @@ export const TrackProvider = ({ children }: any) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    setError(null);
     if (!track) return;
 
     if (audioRef.current === null) {
@@ -38,12 +39,11 @@ export const TrackProvider = ({ children }: any) => {
       setTrack(null);
     }
 
-    if (!track.preview_url) {
+    if (track.preview_url === null) {
       setError("No preview available");
-      return;
     }
 
-    audioRef.current.src = track.preview_url;
+    audioRef.current.src = track.preview_url || "";
     audioRef.current.volume = volume;
 
     const setAudioData = () => {
@@ -60,12 +60,6 @@ export const TrackProvider = ({ children }: any) => {
     audioRef.current.addEventListener("loadeddata", () => setAudioData());
     audioRef.current.addEventListener("timeupdate", () => setAudioTime());
     audioRef.current.preload = "none";
-
-    return () => {
-      audioRef.current!.removeEventListener("loadeddata", () => setAudioData());
-      audioRef.current!.removeEventListener("timeupdate", () => setAudioTime());
-      audioRef.current!.removeEventListener("ended", () => setIsPlaying(false));
-    };
   }, [track, isPlaying, volume, duration]);
 
   return (

@@ -18,11 +18,11 @@ interface Props {
 const TopList: NextPageWithLayout = ({
   items,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { track, setTrack, error } = useTrackPlayer();
+  const { setTrack } = useTrackPlayer();
 
   useEffect(() => {
     setTrack(items[0]);
-  }, [items, setTrack]);
+  }, []);
 
   return (
     <main
